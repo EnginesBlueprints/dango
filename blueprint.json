@@ -15,12 +15,18 @@
         "level": "alpha",
         "patch": 0
       }
-    }
+    },
+    "timestamp": "2019-08-26T14:19:09+10:00"
   },
   "software": {
     "base": {
+      "name": "django",
+      "framework": "python3.7",
       "deployment_type": "web",
-      "http_protocol": "https_and_http"
+      "http_protocol": "https_and_http",
+      "memory": {
+        "required": 256
+      }
     }
   }
 }
