@@ -16,17 +16,54 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-26T14:19:09+10:00"
+    "timestamp": "2019-08-27T15:18:36+10:00"
   },
   "software": {
     "base": {
       "name": "django",
-      "framework": "python3.7",
+      "framework": "ap_python",
       "deployment_type": "web",
-      "http_protocol": "https_and_http",
+      "http_protocol": "http_and_https",
       "memory": {
         "required": 256
       }
-    }
+    },
+    "scripts": {
+      "install": {
+        "language": "sh"
+      },
+      "first_run": {
+        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\n\r\ndjango-admin startproject software"
+      }
+    },
+    "system_packages": [
+      {
+        "package": "apache"
+      },
+      {
+        "package": "libapache2-mod-wsgi-py3"
+      }
+    ],
+    "required_modules": [
+      {
+        "name": "Django",
+        "type": "python"
+      }
+    ],
+    "file_write_permissions": [
+      {
+        "path": "/home/app/software",
+        "recursive": true
+      }
+    ],
+    "actionators": [
+      {
+        "name": "update_core_modules",
+        "return_type": "plain_text",
+        "script": {
+          "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\n\r\nif test -f /home/app/core_modules\r\n then\r\n   for module in `cat /home/app/core_modules`\r\n    do\r\n     echo Updating $module \r\n      python3.7 -m pip  install --upgrade  $module\r\n    done\r\nfi\r\n"
+        }
+      }
+    ]
   }
 }
