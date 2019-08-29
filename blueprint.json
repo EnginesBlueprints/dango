@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-29T14:22:10+10:00"
+    "timestamp": "2019-08-29T14:43:28+10:00"
   },
   "software": {
     "base": {
@@ -39,14 +39,6 @@
         "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app\r\ndjango-admin startproject software"
       }
     },
-    "system_packages": [
-      {
-        "package": "apache"
-      },
-      {
-        "package": "libapache2-mod-wsgi-py3"
-      }
-    ],
     "required_modules": [
       {
         "name": "Django",
