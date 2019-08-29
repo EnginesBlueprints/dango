@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-29T14:43:28+10:00"
+    "timestamp": "2019-08-29T15:50:44+10:00"
   },
   "software": {
     "base": {
@@ -36,7 +36,7 @@
         "language": "sh"
       },
       "first_run": {
-        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app\r\ndjango-admin startproject software"
+        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app/software\r\n\r\n/home/home_dir/.local/bin/django-admin startproject $CONTAINER_NAME"
       }
     },
     "required_modules": [
@@ -48,7 +48,7 @@
     "template_files": [
       {
         "path": "site_config.conf",
-        "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software:/home/app/venv\r\n    LogLevel info\r\n    <Directory /home/app/software>\r\n        WSGIProcessGroup software\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n\r\n"
+        "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/$CONTAINER_NAME/$CONTAINER_NAME/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software/$CONTAINER_NAME:/home/app/venv\r\n    LogLevel info\r\n    <Directory /home/app/software/$CONTAINER_NAME/>\r\n        WSGIProcessGroup $CONTAINER_NAME\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n\r\n"
       }
     ],
     "file_write_permissions": [
