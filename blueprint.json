@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-29T15:50:44+10:00"
+    "timestamp": "2019-08-29T17:18:20+10:00"
   },
   "software": {
     "base": {
@@ -29,9 +29,6 @@
       }
     },
     "scripts": {
-      "start": {
-        "content": "#!/bin/sh\r\n\r\n"
-      },
       "install": {
         "language": "sh"
       },
