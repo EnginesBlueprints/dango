@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-30T12:45:51+10:00"
+    "timestamp": "2019-08-30T13:26:23+10:00"
   },
   "software": {
     "base": {
@@ -34,7 +34,7 @@
         "language": "sh"
       },
       "first_run": {
-        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app/software\r\n\r\n/home/home_dir/.local/bin/django-admin startproject $CONTAINER_NAME\r\n\r\n"
+        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app/software\r\n\r\n/home/home_dir/.local/bin/django-admin startproject $CONTAINER_NAME\r\n\r\ncat /home/app/software/site.settings >> /home/app/software/$CONTAINER_NAME/$CONTAINER_NAME/settings.py \r\n"
       }
     },
     "required_modules": [
@@ -88,7 +88,7 @@
         "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\n    Alias /uploaded /home/fs/persist\r\n    <Directory /home/fs/persist>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name)/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software/_Engines_Builder(engine_name):/home/app/venv/:/home/home_dir/.local/lib/python3.7/site-packages\r\n    LogLevel info\r\n    <Directory /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name) >\r\n        WSGIProcessGroup software\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n"
       },
       {
-        "path": "/home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name).settings",
+        "path": "/home/app/software/site.settings",
         "content": "ALLOWED_HOSTS = ['_Engines_Builder(fqdn)']\r\nDEBUG = True\r\nDEFAULT_FROM_EMAIL = 'webmaster@_Engines_Builder(fqdn)'"
       }
     ],
