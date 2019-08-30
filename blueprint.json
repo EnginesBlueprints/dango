@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-30T12:27:13+10:00"
+    "timestamp": "2019-08-30T12:45:51+10:00"
   },
   "software": {
     "base": {
@@ -34,13 +34,41 @@
         "language": "sh"
       },
       "first_run": {
-        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app/software\r\n\r\n/home/home_dir/.local/bin/django-admin startproject $CONTAINER_NAME"
+        "content": "#!/bin/sh\r\n\r\n. /home/app/venv/bin/activate\r\n \r\npython3.7 -m pip install --upgrade pip \r\ncd /home/app/software\r\n\r\n/home/home_dir/.local/bin/django-admin startproject $CONTAINER_NAME\r\n\r\n"
       }
     },
     "required_modules": [
       {
         "name": "Django",
         "type": "python"
+      }
+    ],
+    "service_configurations": [
+      {
+        "publisher_namespace": "EnginesSystem",
+        "type_path": "filesystem/local/filesystem",
+        "variables": {
+          "service_name": "uploads",
+          "volume_src": "",
+          "engine_path": "/home/fs/persist",
+          "permissions": "rw",
+          "user": "_Engines_Builder(cont_user_id)",
+          "group": "_Engines_Builder(data_gid)",
+          "fw_user": "_Engines_Builder(cont_user_id)",
+          "exclude_from_backup": "false"
+        }
+      },
+      {
+        "publisher_namespace": "EnginesSystem",
+        "type_path": "database/sql/mysql",
+        "variables": {
+          "database_name": "_Engines_Builder(engine_name)",
+          "database_host": "_Engines_System(mysql_host)",
+          "db_username": "_Engines_Builder(engine_name)",
+          "db_password": "_Engines_System(random(10))",
+          "collation": "utf8_general_ci",
+          "full_access": "false"
+        }
       }
     ],
     "environment_variables": [
@@ -57,7 +85,7 @@
     "template_files": [
       {
         "path": "site_config.conf",
-        "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name)/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software/_Engines_Builder(engine_name):/home/app/venv/:/home/home_dir/.local/lib/python3.7/site-packages\r\n    LogLevel info\r\n    <Directory /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name) >\r\n        WSGIProcessGroup software\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n"
+        "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\n    Alias /uploaded /home/fs/persist\r\n    <Directory /home/fs/persist>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name)/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software/_Engines_Builder(engine_name):/home/app/venv/:/home/home_dir/.local/lib/python3.7/site-packages\r\n    LogLevel info\r\n    <Directory /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name) >\r\n        WSGIProcessGroup software\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n"
       },
       {
         "path": "/home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name).settings",
