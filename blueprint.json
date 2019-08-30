@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-29T17:18:20+10:00"
+    "timestamp": "2019-08-30T12:07:58+10:00"
   },
   "software": {
     "base": {
@@ -25,7 +25,8 @@
       "deployment_type": "web",
       "http_protocol": "http_and_https",
       "memory": {
-        "required": 256
+        "required": 256,
+        "recommended": 257
       }
     },
     "scripts": {
@@ -42,10 +43,25 @@
         "type": "python"
       }
     ],
+    "environment_variables": [
+      {
+        "name": "DJANGO_SETTINGS_MODULE",
+        "value": "_Engines_Builder(engine_name).settings",
+        "mandatory": true,
+        "immutable": true,
+        "input": {
+          "type": "string"
+        }
+      }
+    ],
     "template_files": [
       {
         "path": "site_config.conf",
-        "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/$CONTAINER_NAME/$CONTAINER_NAME/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software/$CONTAINER_NAME:/home/app/venv\r\n    LogLevel info\r\n    <Directory /home/app/software/$CONTAINER_NAME/>\r\n        WSGIProcessGroup $CONTAINER_NAME\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n\r\n"
+        "content": "<VirtualHost *:8000>\r\n\r\n    Alias /static /home/app/static\r\n    <Directory /home/app/static>\r\n        Require all granted\r\n    </Directory>\r\n\r\nWSGIPassAuthorization On\r\nWSGIScriptAlias / /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name)/wsgi.py\r\n\r\nWSGIDaemonProcess software python-path=/home/app/software/_Engines_Builder(engine_name):/home/app/venv/:/home/home_dir/.local/lib/python3.7/site-packages\r\n    LogLevel info\r\n    <Directory /home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name)\r\n        WSGIProcessGroup software\r\n        WSGIApplicationGroup %{GLOBAL}\r\n        <Files wsgi.py>\r\n            Require all granted\r\n        </Files>\r\n    </Directory>\r\n</VirtualHost>\r\n"
+      },
+      {
+        "path": "/home/app/software/_Engines_Builder(engine_name)/_Engines_Builder(engine_name).settings",
+        "content": "ALLOWED_HOSTS = ['_Engines_Environment(fqdn)']\r\nDEBUG = True\r\nDEFAULT_FROM_EMAIL = 'webmaster@_Engines_Environment(fqdn)'"
       }
     ],
     "file_write_permissions": [
