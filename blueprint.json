@@ -16,7 +16,7 @@
         "patch": 0
       }
     },
-    "timestamp": "2019-08-30T13:26:23+10:00"
+    "timestamp": "2019-09-26T11:26:15+10:00"
   },
   "software": {
     "base": {
@@ -39,36 +39,8 @@
     },
     "required_modules": [
       {
-        "name": "Django",
+        "name": "django",
         "type": "python"
-      }
-    ],
-    "service_configurations": [
-      {
-        "publisher_namespace": "EnginesSystem",
-        "type_path": "filesystem/local/filesystem",
-        "variables": {
-          "service_name": "uploads",
-          "volume_src": "",
-          "engine_path": "/home/fs/persist",
-          "permissions": "rw",
-          "user": "_Engines_Builder(cont_user_id)",
-          "group": "_Engines_Builder(data_gid)",
-          "fw_user": "_Engines_Builder(cont_user_id)",
-          "exclude_from_backup": "false"
-        }
-      },
-      {
-        "publisher_namespace": "EnginesSystem",
-        "type_path": "database/sql/mysql",
-        "variables": {
-          "database_name": "_Engines_Builder(engine_name)",
-          "database_host": "_Engines_System(mysql_host)",
-          "db_username": "_Engines_Builder(engine_name)",
-          "db_password": "_Engines_System(random(10))",
-          "collation": "utf8_general_ci",
-          "full_access": "false"
-        }
       }
     ],
     "environment_variables": [
